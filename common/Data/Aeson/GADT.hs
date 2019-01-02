@@ -12,6 +12,8 @@
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE TypeOperators #-}
 {-# LANGUAGE UndecidableInstances #-}
+{-# LANGUAGE TemplateHaskell #-}
+{-# LANGUAGE QuasiQuotes #-}
 
 module Data.Aeson.GADT where
 
