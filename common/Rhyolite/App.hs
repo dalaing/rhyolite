@@ -33,21 +33,10 @@ import Reflex.Query.Class (Query, QueryMorphism(..), QueryResult, crop)
 
 type Request r = (FromJSON (Some r), ToJSON (Some r), Has FromJSON r, Has ToJSON r)
 
-instance (Ord k, Query v) => Query (MonoidalMap k v) where
-  type QueryResult (MonoidalMap k v) = MonoidalMap k (QueryResult v)
-  crop q r = MonoidalMap.intersectionWith (flip crop) r q
-
 singletonQuery :: (Monoid (QueryResult q), Ord k) => k -> QueryMorphism q (MonoidalMap k q)
 singletonQuery k = QueryMorphism { _queryMorphism_mapQuery = MonoidalMap.singleton k
                                  , _queryMorphism_mapQueryResult = MonoidalMap.findWithDefault mempty k
                                  }
-
-instance Category QueryMorphism where
-  id = QueryMorphism id id
-  qm . qm' = QueryMorphism
-    { _queryMorphism_mapQuery = mapQuery qm . mapQuery qm'
-    , _queryMorphism_mapQueryResult = mapQueryResult qm' . mapQueryResult qm
-    }
 
 fmapMaybeFst :: FunctorMaybe f => (a -> Maybe b) -> f (a, c) -> f (b, c)
 fmapMaybeFst f = fmapMaybe $ \(a, c) -> case f a of
