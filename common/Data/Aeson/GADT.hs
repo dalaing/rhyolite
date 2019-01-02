@@ -20,6 +20,7 @@ module Data.Aeson.GADT where
 import Control.Monad
 import Data.Aeson
 import Data.Constraint.Forall
+import Data.Constraint.Extras
 import Data.Dependent.Sum
 import Data.Functor.Classes
 import Data.Some (Some (..))
