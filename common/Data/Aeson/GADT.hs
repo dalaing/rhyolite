@@ -19,6 +19,7 @@ module Data.Aeson.GADT where
 
 import Control.Monad
 import Data.Aeson
+import Data.Constraint.Forall
 import Data.Dependent.Sum
 import Data.Functor.Classes
 import Data.Some (Some (..))
@@ -71,7 +72,7 @@ deriveToJSONGADT n = do
     |]
 
 instance (ForallF ToJSON c) => ToJSON (Some c) where
-  toJSON (Some.This (x :: c a)) = whichever @ToJSON @c @a (toJSON x)
+  toJSON (This (x :: c a)) = whichever @ToJSON @c @a (toJSON x)
 
 deriveFromJSONGADT :: Name -> DecsQ
 deriveFromJSONGADT n = do
